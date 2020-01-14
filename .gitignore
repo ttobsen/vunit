@@ -20,3 +20,5 @@ error.csv
 log.csv
 my_logger.csv
 examples/vhdl/array_axis_vcs/src/test/data/out.csv
+tmp/
+.mypy_cache/
