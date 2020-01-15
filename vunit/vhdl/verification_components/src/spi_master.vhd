@@ -93,7 +93,6 @@ begin
   is
     variable m2s_req_length: natural := 0;
 
-    variable m2s_req: msg_t;
     variable m2s_data_msg: msg_t;
     variable s2m_data_msg: msg_t;
 
@@ -103,7 +102,9 @@ begin
     wait until irq2 = '1';
 
     m2s_req_length := length(m2s_req_queue);
-    while (m2s_req_length > 0) loop
+    
+    if (m2s_req_length > 0) then
+      report "m2s_req_length: " & integer'image(m2s_req_length);
       if length(m2s_msg_queue) > 0 then
         m2s_data_msg := pop(m2s_msg_queue);
         m2s_data := pop_std_ulogic_vector(m2s_data_msg);
@@ -131,9 +132,7 @@ begin
       push(s2m_msg_queue, s2m_data_msg);
       nudge(irq => irq1);
 
-      m2s_req := pop(m2s_req_queue);
-      m2s_req_length := length(m2s_req_queue);
-    end loop;
+    end if;
 
   end process transfer;
 
